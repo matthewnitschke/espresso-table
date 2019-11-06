@@ -1,22 +1,12 @@
-const gpiop = require('rpi-gpio').promise;
+// const power = require("pi-pins").connect(17);
 
-const powerGPIOPin = 7;
-
-let isSetup = false;
-async function setup() {
-    await gpiop.setup(powerGPIOPin, gpiop.DIR_OUT);
-    isSetup = true;
-}
+// power.mode('low');
 
 module.exports = {
     on: async () => {
-        if (!isSetup) await setup();
-        
-        await gpiop.write(powerGPIOPin, true);
+        // power.value(true);
     },
     off: async () => {
-        if (!isSetup) await setup();
-
-        await gpiop.write(powerGPIOPin, false);
+        // power.value(false);
     }
 }
