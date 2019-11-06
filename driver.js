@@ -1,12 +1,12 @@
-// const power = require("pi-pins").connect(17);
+const power = require("pi-pins").connect(17);
 
-// power.mode('low');
+power.mode('low');
 
 module.exports = {
     on: async () => {
-        // power.value(true);
+        power.value(true);
     },
     off: async () => {
-        // power.value(false);
+        power.value(false);
     }
 }
