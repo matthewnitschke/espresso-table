@@ -1,0 +1,25 @@
+html, body {
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: -4rem;
+}
+
+.pure-button.button-on {
+  color: #FFF;
+  background-color: #00b16a;
+}
+
+.pure-button.button-off {
+  color: #FFF;
+  background-color: #cf000f;
+}
+
+.tac {
+  text-align: center;
+}
