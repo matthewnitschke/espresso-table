@@ -1,29 +1,31 @@
+const path = require('path');
 const express = require('express');
 const app = express();
 
 const driver = require('./driver.js');
-
-// Enable HTML template middleware
-app.engine('html', require('ejs').renderFile);
 
 // Enable static CSS styles
 app.use(express.static('styles'));
 
 // reply to request with "Hello World!"
 app.get('/', function (req, res) {
-  res.render('index.html');
+  res.sendFile(path.join(__dirname, 'index.html'))
 });
 
 app.get('/on', async (req, res) => {
-  console.log('Power On');
-  await driver.on();
+  console.log('Kettle On');
+  await driver.kettleOnProcess();
   res.status(200).send('Ok');
 })
 
 app.get('/off', async (req, res) => {
-  console.log('Power Off');
-  await driver.off();
+  console.log('Kettle On');
+  await driver.powerToggle();
   res.status(200).send('Ok');
+})
+
+app.get('/isWasteWaterFull', async (req, res) => {
+  res.status(200).send(driver.isWasteWaterFull());
 })
 
 //start a server on port 80 and log its start to our console

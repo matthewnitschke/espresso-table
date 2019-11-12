@@ -11,10 +11,26 @@
 <body>
   <div class="container">
     <div class="tac">
-      <div>Current status: <span>Off</span></div>
-      <input type="button" class="pure-button button-off" value="Off">
-      <input type="button" class="pure-button button-on" value="On">
+      
+        <div>
+          <label>Kettle</label>
+          <div>
+            <input type="button" id="on" class="pure-button button-on" value="On">
+            <input type="button" id="off" class="pure-button button-off" value="Off">
+          </div>
+        </div>
+
     </div>
+
+    <script>
+      document.querySelector('#on').addEventListener('click', () => {
+        fetch('/on')
+      })
+      document.querySelector('#off').addEventListener('click', () => {
+        fetch('/off')
+      })
+      
+    </script>
   </div>
 </body>
 </html>
