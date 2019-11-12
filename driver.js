@@ -4,6 +4,7 @@ const kettlePower = piPins.connect(17);
 const kettleHold = piPins.connect(27);
 
 const wasteWater = piPins.connect(5)
+// const cleanWater
 
 kettlePower.mode('low');
 kettleHold.mode('low');
@@ -34,8 +35,8 @@ module.exports = {
         kettleHold.value(true);
         setTimeout(() => kettleHold.value(false), 1000)
     },
-    kettleOnProcess: async () => {
-        module.exports.powerToggle();
-        setTimeout(() => module.exports.holdToggle(), 3000);
+    on: (pin, callback) => {
+        let pin =  module.exports.pins[pin]
+        pin.on('both', () => callback(pin.value()))
     }
 }
