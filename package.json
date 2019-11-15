@@ -1,7 +1,7 @@
 {
-  "name": "simple-server-node",
+  "name": "espresso-table",
   "version": "1.0.0",
-  "description": "A simple Expressjs Web server on balena",
+  "description": "A node web server to run espresso table services",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -9,19 +9,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/balena-io-projects/simple-server-node.git"
+    "url": "git+https://github.com/matthewnitschke/espresso-table.git"
   },
   "keywords": [
     "webserver",
     "nodejs",
     "expressjs"
   ],
-  "author": "Shaun Mulligan <shaun@balena.io>",
+  "author": "Matthew Nitschke",
   "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/balena-io-projects/simple-server-node/issues"
-  },
-  "homepage": "https://github.com/balena-io-projects/simple-server-node#readme",
+  "homepage": "https://github.com/matthewnitschke/espresso-table",
   "dependencies": {
     "express": "*",
     "pi-pins": "~1.0.2",
