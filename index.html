@@ -92,42 +92,5 @@
       }
   })
   </script>
-  <!-- <script>
-    let socket = io();
-    socket.on('wasteWater', (isFull) => {
-      if (isFull) {
-        document.querySelector('.waste-water span').innerHTML = '<i class="fas fa-exclamation-circle"></i>'
-      } else {
-        document.querySelector('.waste-water span').innerHTML = '<i class="fas fa-check-circle"></i>'
-      }
-    });
-
-    socket.on('washWater', (isFull) => {
-      if (!isFull) {
-        document.querySelector('.wash-water span').innerHTML = '<i class="fas fa-check-circle"></i>'
-      } else {
-        document.querySelector('.wash-water span').innerHTML = '<i class="fas fa-exclamation-circle"></i>'
-      }
-    })
-
-    let kettlePowerButton = document.querySelector('.kettle-power-button')
-    let kettlePowerTime;
-    kettlePowerButton.addEventListener('click', () => {
-      if (kettlePowerButton.classList.contains('is-on')) {
-        fetch('/off')
-      } else {
-        fetch('/on')
-      }
-    })
-    socket.on('kettlePowerLED', ({ isOn, powerTime }) => {
-      kettlePowerTime = powerTime
-      if (isOn) {
-        kettlePowerButton.classList.add('is-on')
-      } else {
-        kettlePowerButton.classList.remove('is-on')
-      }
-    })
-
-  </script> -->
 </body>
 </html>
