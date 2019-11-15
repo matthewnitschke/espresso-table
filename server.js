@@ -1,46 +1,56 @@
 const path = require('path');
 
-const app = require('express')();
+const express = require('express');
+const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-// const driver = require('./driver.js');
-const driver = {}
+const driver = require('./driver.js');
 
-// Enable static CSS styles
 app.use(express.static('styles'));
 
-// reply to request with "Hello World!"
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.get('/on', async (req, res) => {
   console.log('Kettle On');
-  await driver.kettleOnProcess();
+  await driver.kettlePowerHold();
   res.status(200).send('Ok');
 });
 
 app.get('/off', async (req, res) => {
   console.log('Kettle On');
-  await driver.powerToggle();
+  await driver.kettlePowerToggle();
   res.status(200).send('Ok');
 });
 
-app.get('/isWasteWaterFull', async (req, res) => {
-  res.status(200).send(driver.isWasteWaterFull());
-});
-
 io.on('connection', (socket) => {
-  driver.on('wasteWater', (isEmpty) => {
-    io.emit('wasteWaterUpdate', isEmpty)
+  driver.on('wasteWater', (isFull) => {
+    io.emit('wasteWater', isFull)
   })
+
+  driver.on('washWater', (isFull) => {
+    io.emit('washWater', isFull)
+  })
+
+  driver.onKettlePower((isOn, powerTime) => {
+    io.emit('kettlePowerLED', {
+      isOn: isOn,
+      powerTime: powerTime
+    });
+  })
+
+  io.emit('wasteWater', driver.pins['wasteWater'].value())
+  io.emit('washWater', driver.pins['washWater'].value())
+  io.emit('kettlePowerLED', {
+    isOn: driver.pins['kettlePowerLED'].value()
+  });
 });
 
 //start a server on port 80 and log its start to our console
-var server = app.listen(80, function () {
+const server = http.listen(80, function () {
 
   var port = server.address().port;
   console.log('Example app listening on port ', port);
-
 });

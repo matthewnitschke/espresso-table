@@ -1,42 +1,52 @@
 const piPins = require('pi-pins')
 
 const kettlePower = piPins.connect(17);
+const kettlePowerLED = piPins.connect(23);
 const kettleHold = piPins.connect(27);
 
 const wasteWater = piPins.connect(5)
-// const cleanWater
+const washWater = piPins.connect(6)
 
 kettlePower.mode('low');
+kettlePowerLED.mode('in');
 kettleHold.mode('low');
 
-wasteWater.mode('in')
+wasteWater.mode('in');
+washWater.mode('in');
 
-let _isWasteWaterFull = wasteWater.value();
-console.log(`:: ${_isWasteWaterFull}`)
-wasteWater.on('both', () => {
-    _isWasteWaterFull = wasteWater.value();
-    console.log(`:: ${_isWasteWaterFull}`)
-})
+
 
 module.exports = {
     pins: {
         'kettlePower': kettlePower,
+        'kettlePowerLED': kettlePowerLED,
         'kettleHold': kettlePower,
         'wasteWater': wasteWater,
+        'washWater': washWater,
     },
-    isWasteWaterFull: async () => {
-        return _isWasteWaterFull;
+    kettlePowerHold: async () => {
+        await module.exports.kettlePowerToggle();
+        setTimeout(() => module.exports.kettleHoldToggle(), 2000)
     },
-    powerToggle: async () => {
-        kettlePower.value(true);
-        setTimeout(() => kettlePower.value(false), 1000)
+    kettlePowerToggle: async () => {
+        return new Promise((res, rej) => {
+            kettlePower.value(true);
+            setTimeout(() => { 
+                kettlePower.value(false);
+                res()
+            }, 1000)
+        })
     },
-    holdToggle: async () => {
+    kettleHoldToggle: async () => {
         kettleHold.value(true);
         setTimeout(() => kettleHold.value(false), 1000)
     },
-    on: (pin, callback) => {
-        let pin =  module.exports.pins[pin]
+    on: (pinKey, callback) => {
+        let pin =  module.exports.pins[pinKey]
         pin.on('both', () => callback(pin.value()))
+    },
+    onKettlePower: (callback) => {
+        kettlePowerLED.on('rise', () => callback(true, new DateTime()));
+        kettlePowerLED.on('fall', () => callback(false, null));
     }
 }

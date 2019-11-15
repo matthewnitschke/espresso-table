@@ -27,3 +27,30 @@ html, body {
 .mt2 {
   margin-top: 2rem;
 }
+
+.fa-exclamation-circle {
+  color: #cf000f;
+}
+
+.fa-check-circle {
+  color: #00b16a;
+}
+
+.wash-water, .waste-water {
+  font-size: 2rem;
+}
+
+label {
+  font-size: 4rem;
+}
+
+.kettle-power-button {
+  font-size: 6rem;
+  color: lightgrey;
+  cursor: pointer;
+}
+
+
+.kettle-power-button.is-on {
+  color: #00b16a;
+}

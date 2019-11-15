@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
   <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
+  <script src="https://kit.fontawesome.com/c8753f2dce.js" crossorigin="anonymous"></script>
 </head>
 <body>
   <div class="container">
@@ -15,44 +16,64 @@
         <div>
           <label>Kettle</label>
           <div>
-            <input type="button" id="on" class="pure-button button-on" value="On">
-            <input type="button" id="off" class="pure-button button-off" value="Off">
+            <i class="fas fa-power-off kettle-power-button"></i>
+            <div class="kettle-on-time"></div>
           </div>
         </div>
 
         <div class="mt2">
           <label>Water Levels</label>
+
           <div class="waste-water">
-
+            Waste:
+            <span></span>
           </div>
-          <div>
-
+          <div class="wash-water">
+            Wash:
+            <span></span>
           </div>
         </div>
 
     </div>
-
-    <script>
-      document.querySelector('#on').addEventListener('click', () => {
-        fetch('/on')
-      })
-      document.querySelector('#off').addEventListener('click', () => {
-        fetch('/off')
-      })
-      
-    </script>
   </div>
 
   <script src="/socket.io/socket.io.js"></script>
   <script>
     let socket = io();
-    socket.on('wasteWaterUpdate', (isEmpty) => {
-      if (isEmpty) {
-        document.querySelector('.waste-water').innerHTML = "Empty"
+    socket.on('wasteWater', (isFull) => {
+      if (isFull) {
+        document.querySelector('.waste-water span').innerHTML = '<i class="fas fa-exclamation-circle"></i>'
       } else {
-        document.querySelector('.waste-water').innerHTML = "FULL"
+        document.querySelector('.waste-water span').innerHTML = '<i class="fas fa-check-circle"></i>'
       }
     });
+
+    socket.on('washWater', (isFull) => {
+      if (!isFull) {
+        document.querySelector('.wash-water span').innerHTML = '<i class="fas fa-check-circle"></i>'
+      } else {
+        document.querySelector('.wash-water span').innerHTML = '<i class="fas fa-exclamation-circle"></i>'
+      }
+    })
+
+    let kettlePowerButton = document.querySelector('.kettle-power-button')
+    let kettlePowerTime;
+    kettlePowerButton.addEventListener('click', () => {
+      if (kettlePowerButton.classList.contains('is-on')) {
+        fetch('/off')
+      } else {
+        fetch('/on')
+      }
+    })
+    socket.on('kettlePowerLED', ({ isOn, powerTime }) => {
+      kettlePowerTime = powerTime
+      if (isOn) {
+        kettlePowerButton.classList.add('is-on')
+      } else {
+        kettlePowerButton.classList.remove('is-on')
+      }
+    })
+
   </script>
 </body>
 </html>
