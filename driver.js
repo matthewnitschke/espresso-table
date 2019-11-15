@@ -14,8 +14,6 @@ kettleHold.mode('low');
 wasteWater.mode('in');
 washWater.mode('in');
 
-
-
 module.exports = {
     pins: {
         'kettlePower': kettlePower,
@@ -44,9 +42,5 @@ module.exports = {
     on: (pinKey, callback) => {
         let pin =  module.exports.pins[pinKey]
         pin.on('both', () => callback(pin.value()))
-    },
-    onKettlePower: (callback) => {
-        kettlePowerLED.on('rise', () => callback(true, new DateTime()));
-        kettlePowerLED.on('fall', () => callback(false, null));
     }
 }

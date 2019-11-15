@@ -7,7 +7,7 @@ const io = require('socket.io')(http);
 
 const driver = require('./driver.js');
 
-app.use(express.static('styles'));
+app.use(express.static('public'));
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
@@ -34,18 +34,13 @@ io.on('connection', (socket) => {
     io.emit('washWater', isFull)
   })
 
-  driver.onKettlePower((isOn, powerTime) => {
-    io.emit('kettlePowerLED', {
-      isOn: isOn,
-      powerTime: powerTime
-    });
+  driver.on('kettlePowerLED', (isOn) => {
+    io.emit('kettlePowerLED', isOn);
   })
 
   io.emit('wasteWater', driver.pins['wasteWater'].value())
   io.emit('washWater', driver.pins['washWater'].value())
-  io.emit('kettlePowerLED', {
-    isOn: driver.pins['kettlePowerLED'].value()
-  });
+  io.emit('kettlePowerLED', driver.pins['kettlePowerLED'].value());
 });
 
 //start a server on port 80 and log its start to our console
