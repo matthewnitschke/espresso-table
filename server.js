@@ -7,6 +7,14 @@ const io = require('socket.io')(http);
 
 const driver = require('./driver.js');
 
+
+function checkWarningLight() {
+  let washWater = driver.pins['washWater'].value()
+  let wasteWater = driver.pins['wasteWater'].value()
+  console.log(`${washWater} :: ${wasteWater}`)
+  driver.beanLight.setWarningStatus(washWater || wasteWater)
+}
+
 app.use(express.static('public'));
 
 app.get('/', function (req, res) {
@@ -28,14 +36,24 @@ app.get('/off', async (req, res) => {
 io.on('connection', (socket) => {
   driver.on('wasteWater', (isFull) => {
     io.emit('wasteWater', isFull)
+
+    checkWarningLight()
   })
 
   driver.on('washWater', (isFull) => {
     io.emit('washWater', isFull)
+
+    checkWarningLight()
   })
 
   driver.on('kettlePowerLED', (isOn) => {
     io.emit('kettlePowerLED', isOn);
+
+    if (isOn) {
+      driver.pins['beanLight'].value(true)
+    } else {
+      driver.pins['beanLight'].value(false)
+    }
   })
 
   io.emit('wasteWater', driver.pins['wasteWater'].value())
