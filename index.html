@@ -14,17 +14,6 @@
 <body>
   <div id="app" class="container">
     <div class="tac">
-        <div>
-          <label>Kettle</label>
-          <div>
-            <i 
-              class="fas fa-power-off kettle-power-button" 
-              :class="{ 'is-on': isKettleOn }"
-              @click="kettlePowerToggle"
-            ></i>
-          </div>
-        </div>
-
         <div class="mt2">
           <label>Water Levels</label>
           <div class="waste-water">
@@ -62,25 +51,11 @@
     new Vue({
       el: '#app',
       data: {
-        isKettleOn: false,
         isWasteWaterFull: false,
         isWashWaterEmpty: false
       },
-      methods: {
-          kettlePowerToggle: function (e) {
-              if (this.isKettleOn) {
-                  fetch('/off')
-              } else {
-                  fetch('/on')
-              }
-          }
-      },
       mounted: function () {
           let socket = io();
-
-          socket.on('kettlePowerLED', (isOn) => {
-              this.isKettleOn = isOn
-          })
 
           socket.on('wasteWater', (isFull) => {
             this.isWasteWaterFull = isFull
