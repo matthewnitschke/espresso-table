@@ -24,6 +24,7 @@ module.exports = {
         value: (val) => beanLight.value(val),
         setWarningStatus: (isTrue) => {
             if (isTrue && warningInterval == null) {
+                console.log(`Starting Warning Light - ${new Date()}`)
                 warningInterval = setInterval(() => {
                     beanLight.value(!beanLight.value())
                 }, 3000)
