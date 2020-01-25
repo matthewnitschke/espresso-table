@@ -31,7 +31,7 @@ module.exports = {
             if (!isTrue && warningInterval != null) {
                 console.log('clearing interval')
                 clearInterval(warningInterval);
-                beanLight.value(kettlePowerLED.value());
+                beanLight.value(false);
             }
         }
     }
