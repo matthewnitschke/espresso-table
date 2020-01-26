@@ -32,6 +32,7 @@ module.exports = {
             if (!isTrue && warningInterval != null) {
                 console.log('clearing interval')
                 clearInterval(warningInterval);
+                warningInterval = null;
                 beanLight.value(false);
             }
         }
